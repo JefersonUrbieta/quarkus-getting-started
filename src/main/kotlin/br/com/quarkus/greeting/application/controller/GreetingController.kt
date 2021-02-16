@@ -1,5 +1,6 @@
 package br.com.quarkus.greeting.application.controller
 
+import br.com.quarkus.greeting.application.GreetingConfig
 import br.com.quarkus.greeting.service.GreetingService
 import javax.inject.Inject
 import javax.ws.rs.GET
@@ -14,6 +15,9 @@ class GreetingController {
     @Inject
     lateinit var greetingService: GreetingService
 
+    @Inject
+    lateinit var greetingConfig: GreetingConfig
+
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     @Path("/greeting/{name}")
@@ -23,5 +27,5 @@ class GreetingController {
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    fun hello() = "Hello RESTEasy"
+    fun hello() = "${greetingConfig.message} ${greetingConfig.name.orElse("world") }${greetingConfig.suffix}"
 }
