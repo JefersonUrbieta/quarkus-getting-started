@@ -6,7 +6,6 @@ import org.hamcrest.CoreMatchers.`is`
 import org.junit.jupiter.api.Test
 import java.util.*
 
-
 @QuarkusTest
 class GreetingControllerTest {
 
@@ -29,5 +28,4 @@ class GreetingControllerTest {
             .statusCode(200)
             .body(`is`("Hello RESTEasy"))
     }
-
 }
