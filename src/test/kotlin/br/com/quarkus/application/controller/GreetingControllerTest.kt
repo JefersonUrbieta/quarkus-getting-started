@@ -26,6 +26,6 @@ class GreetingControllerTest {
             .`when`().get("/hello")
             .then()
             .statusCode(200)
-            .body(`is`("hello quarkus!"))
+            .body(`is`("hello tester!"))
     }
 }
