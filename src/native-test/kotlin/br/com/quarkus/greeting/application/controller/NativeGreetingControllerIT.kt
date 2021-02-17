@@ -1,4 +1,4 @@
-package br.com.quarkus.application.controller
+package br.com.quarkus.greeting.application.controller
 
 import io.quarkus.test.junit.NativeImageTest
 
