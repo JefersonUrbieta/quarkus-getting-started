@@ -1,19 +1,17 @@
 package br.com.quarkus.fruit.service
 
 import br.com.quarkus.fruit.domain.Fruit
-import io.smallrye.mutiny.Multi
+import br.com.quarkus.fruit.domain.observer.FruitObserver
 import io.smallrye.mutiny.Uni
-import org.reactivestreams.Publisher
-import java.time.Duration
 import javax.enterprise.context.ApplicationScoped
-import java.util.concurrent.atomic.AtomicInteger
-import java.util.function.Function
-import java.util.function.Predicate
-import java.util.function.Supplier
+import javax.inject.Inject
 
 
 @ApplicationScoped
 class FruitServiceImpl : FruitService {
+
+    @Inject
+    lateinit var fruitObserver: FruitObserver
 
     private var fruits: MutableList<Fruit> = mutableListOf()
 
@@ -22,10 +20,15 @@ class FruitServiceImpl : FruitService {
     override fun registerFruit(fruit: Fruit) {
         if (fruits.contains(fruit)) return
         fruits.add(fruit)
+        fruitObserver.inserted(fruit)
     }
 
     override fun removeFruit(fruitName: String) {
-        fruits.removeIf { it.name == fruitName }
+        val fruit = fruits.find { it.name == fruitName }
+        if (fruit != null) {
+            fruits.remove(fruit)
+            fruitObserver.removed(fruit)
+        }
     }
 
     override fun findByName(name: String): Uni<Fruit> {
